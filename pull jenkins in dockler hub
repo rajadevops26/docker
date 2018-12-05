@@ -1,0 +1,497 @@
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                    PORTS                                              NAMES
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"              5 days ago          Up 5 days                 0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins11
+b18689450c71        rajarani/ubuntu     "/bin/bash"              5 days ago          Exited (0) 5 days ago                                                        jenkins_master
+5f2ce867cf70        jenkins             "/bin/tini -- /usr/l…"   5 days ago          Exited (130) 5 days ago                                                      jenkins
+4ef18f9429f5        rajarani/ubuntu     "/bin/bash"              6 days ago          Up 6 days                                                                    ubuntu
+docker@boot2docker:~$ docker rmi 2c79f54bd8a0
+Error response from daemon: conflict: unable to delete 2c79f54bd8a0 (must be forced) - image is referenced in multiple repositories
+docker@boot2docker:~$ docker rm jenkins_master
+jenkins_master
+docker@boot2docker:~$ docker rm 5f2ce867cf70
+5f2ce867cf70
+docker@boot2docker:~$ docker rm 4ef18f9429f5
+Error response from daemon: You cannot remove a running container 4ef18f9429f5e206909ce017eace4f5848e74adb0e31a9829ddbf08f2bdfd8b7. Stop the container before attempting removal or force remove
+docker@boot2docker:~$ docker rm -f 4ef18f9429f5
+4ef18f9429f5
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/jenkins    latest              2c79f54bd8a0        4 days ago          558MB
+jenkins_server      latest              2c79f54bd8a0        4 days ago          558MB
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ docker rmi 2c79f54bd8a0
+Error response from daemon: conflict: unable to delete 2c79f54bd8a0 (must be forced) - image is referenced in multiple repositories
+docker@boot2docker:~$ docker rmi -f  2c79f54bd8a0
+Untagged: jenkins_server:latest
+Untagged: rajarani/jenkins:latest
+Untagged: rajarani/jenkins@sha256:1b1a3177c16d6f0e54beb124618974dc39e909fdf535c172917e4fe8d009f4a7
+Deleted: sha256:2c79f54bd8a06c982f74cc7a12687eb00235e1efc6b21ab155cdf1f04a32bf15
+Deleted: sha256:93eb565471dc573ab5f7517b4c7cb5f42f19d7b82da3d8e019cef089e0619eaf
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ clear
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                              NAMES
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago          Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins11
+docker@boot2docker:~$ docker pull rajarani/jenkins
+Using default tag: latest
+latest: Pulling from rajarani/jenkins
+473ede7ed136: Already exists
+c46b5fa4d940: Already exists
+93ae3df89c92: Already exists
+6b1eed27cade: Already exists
+372f97e6f0f5: Pull complete
+Digest: sha256:1b1a3177c16d6f0e54beb124618974dc39e909fdf535c172917e4fe8d009f4a7
+Status: Downloaded newer image for rajarani/jenkins:latest
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/jenkins    latest              2c79f54bd8a0        4 days ago          558MB
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ docker run --name=jenkins26 -p 8080:8080 -p 50000:50000 rajarani/jenkins
+docker: Error response from daemon: driver failed programming external connectivity on endpoint jenkins26 (2129ad9b4830b63e32c1d5ed961df3fda320c23ac4c3ae2b383a0305d7d263b8): Bind for 0.0.0.0:50000 failed: port is already allocated.
+ERRO[0000] error waiting for container: context canceled
+docker@boot2docker:~$ docker run --name jenkins26 -p 8080:8080 -p 50000:50000 rajarani/jenkins
+docker: Error response from daemon: Conflict. The container name "/jenkins26" is already in use by container "d7e7c286effd76ade1951df2780015056e042b515dc0b873715ee3eec42a2ec7". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                              NAMES
+d7e7c286effd        rajarani/jenkins    "/bin/bash"         26 seconds ago      Created                                                                jenkins26
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago          Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins11
+docker@boot2docker:~$ docker rm jenkins26
+jenkins26
+docker@boot2docker:~$ docker run --name jenkins26 -p 8080:8080 -p 50000:50000 rajarani/jenkins
+docker: Error response from daemon: driver failed programming external connectivity on endpoint jenkins26 (25aa8c75f9cb50c947ca53ccb483aabf1981713a31a6e955eedfdbe85c2dbd49): Bind for 0.0.0.0:50000 failed: port is already allocated.
+ERRO[0000] error waiting for container: context canceled
+docker@boot2docker:~$ docker run -tid -p 9090:9090 rajarani/jenkins /bin/bash
+49ccd1ea197c56dd945990a776bad0a31d206e42e99c8299d13515b9255bfe25
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                                              NAMES
+49ccd1ea197c        rajarani/jenkins    "/bin/bash"         9 seconds ago        Up 7 seconds        8080/tcp, 50000/tcp, 0.0.0.0:9090->9090/tcp        dazzling_dubinsky
+51ad31be8e1b        rajarani/jenkins    "/bin/bash"         About a minute ago   Created                                                                jenkins26
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago           Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins11
+docker@boot2docker:~$ docker rm jenkins26
+jenkins26
+docker@boot2docker:~$ docker run -tid --name jenkins26 -p 8080:8080 -p 50000:50000 rajarani/jenkins
+f9b527cd5f55dc22bde261c2c379bc15d1899c34cb333132262a1d8580fb1144
+docker: Error response from daemon: driver failed programming external connectivity on endpoint jenkins26 (f3d4345ec8e594ab8758ec8c02fe2828674ee2a3d522faaa9027369411596eb4): Bind for 0.0.0.0:50000 failed: port is already allocated.
+docker@boot2docker:~$ docker rm jenkins26
+jenkins26
+docker@boot2docker:~$ docker run -tid --name jenkins26 -p 1000:1000 -p 60000:60000 rajarani/jenkins
+9c6c6c3b52818c5033d1bacc577ee6db03f46cd8abfb77bc6d3a1b75fa519d06
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                                                                   NAMES
+9c6c6c3b5281        rajarani/jenkins    "/bin/bash"         7 seconds ago        Up 6 seconds        8080/tcp, 0.0.0.0:1000->1000/tcp, 0.0.0.0:60000->60000/tcp, 50000/tcp   jenkins26
+49ccd1ea197c        rajarani/jenkins    "/bin/bash"         About a minute ago   Up About a minute   8080/tcp, 50000/tcp, 0.0.0.0:9090->9090/tcp                             dazzling_dubinsky
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago           Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp                        jenkins11
+docker@boot2docker:~$ docker attach jenkins26
+root@9c6c6c3b5281:/# cd /var/lib/jenkins/
+root@9c6c6c3b5281:/var/lib/jenkins# ls
+config.xml                      jenkins.install.InstallUtil.lastExecVersion     logs              secret.key.not-so-secret  workflow-libs
+hudson.model.UpdateCenter.xml   jenkins.install.UpgradeWizard.state             nodeMonitors.xml  secrets
+hudson.plugins.git.GitTool.xml  jenkins.model.JenkinsLocationConfiguration.xml  nodes             updates
+identity.key.enc                jenkins.telemetry.Correlator.xml                plugins           userContent
+jenkins.CLI.xml                 jobs                                            secret.key        users
+root@9c6c6c3b5281:/var/lib/jenkins# service jenkins status
+Correct java version found
+Jenkins Automation Server is not running, but the pidfile (/var/run/jenkins/jenkins.pid) still exists
+root@9c6c6c3b5281:/var/lib/jenkins# service jenkins start
+Correct java version found
+ * Starting Jenkins Automation Server jenkins                                                                                               [ OK ]
+root@9c6c6c3b5281:/var/lib/jenkins# service jenkins status
+Correct java version found
+Jenkins Automation Server is running with the pid 83
+5
+root@9c6c6c3b5281:/var/lib/jenkins# cd /etc/default/
+root@9c6c6c3b5281:/etc/default# ls
+cacerts  dbus  jenkins  motd-news  nss  useradd
+root@9c6c6c3b5281:/etc/default# vi jenkins
+bash: vi: command not found
+root@9c6c6c3b5281:/etc/default# vi jenkins
+bash: vi: command not found
+root@9c6c6c3b5281:/etc/default# vim jenkins
+bash: vim: command not found
+root@9c6c6c3b5281:/etc/default# apt-get install vim
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim-common vim-runtime xxd
+  xz-utils
+Suggested packages:
+  gpm ctags vim-doc vim-scripts
+The following NEW packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim vim-common vim-runtime xxd
+  xz-utils
+0 upgraded, 14 newly installed, 0 to remove and 0 not upgraded.
+Need to get 10.9 MB of archives.
+After this operation, 55.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://183.82.14.14:80/data/047e0db70dd19ad6/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic-mgc amd64 1:5.32-2ubuntu0.1 [184 kB]
+Get:2 http://183.82.14.14:80/data/047e3bb734d20962/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic1 amd64 1:5.32-2ubuntu0.1 [68.4 kB]
+Get:3 http://183.82.14.14:80/data/047e85b749d264fc/archive.ubuntu.com/ubuntu bionic-updates/main amd64 file amd64 1:5.32-2ubuntu0.1 [22.1 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic/main amd64 libmpdec2 amd64 2.4.2-1ubuntu1 [84.1 kB]
+Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-minimal amd64 3.6.7-1~18.04 [531 kB]
+Get:6 http://archive.ubuntu.com/ubuntu bionic/main amd64 mime-support all 3.60ubuntu1 [30.1 kB]
+Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-stdlib amd64 3.6.7-1~18.04 [1711 kB]
+Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 xxd amd64 2:8.0.1453-1ubuntu1 [49.2 kB]
+Get:9 http://archive.ubuntu.com/ubuntu bionic/main amd64 vim-common all 2:8.0.1453-1ubuntu1 [70.4 kB]
+Get:10 http://archive.ubuntu.com/ubuntu bionic/main amd64 xz-utils amd64 5.2.2-1.3 [83.8 kB]
+Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgpm2 amd64 1.20.7-5 [15.1 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 amd64 3.6.7-1~18.04 [1415 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1 [5437 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 vim amd64 2:8.0.1453-1ubuntu1 [1152 kB]
+Fetched 10.9 MB in 24s (455 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libmagic-mgc.
+(Reading database ... 5739 files and directories currently installed.)
+Preparing to unpack .../00-libmagic-mgc_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking libmagic-mgc (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package libmagic1:amd64.
+Preparing to unpack .../01-libmagic1_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking libmagic1:amd64 (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package file.
+Preparing to unpack .../02-file_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking file (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package libmpdec2:amd64.
+Preparing to unpack .../03-libmpdec2_2.4.2-1ubuntu1_amd64.deb ...
+Unpacking libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Selecting previously unselected package libpython3.6-minimal:amd64.
+Preparing to unpack .../04-libpython3.6-minimal_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package mime-support.
+Preparing to unpack .../05-mime-support_3.60ubuntu1_all.deb ...
+Unpacking mime-support (3.60ubuntu1) ...
+Selecting previously unselected package libpython3.6-stdlib:amd64.
+Preparing to unpack .../06-libpython3.6-stdlib_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package xxd.
+Preparing to unpack .../07-xxd_2%3a8.0.1453-1ubuntu1_amd64.deb ...
+Unpacking xxd (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package vim-common.
+Preparing to unpack .../08-vim-common_2%3a8.0.1453-1ubuntu1_all.deb ...
+Unpacking vim-common (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package xz-utils.
+Preparing to unpack .../09-xz-utils_5.2.2-1.3_amd64.deb ...
+Unpacking xz-utils (5.2.2-1.3) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../10-libgpm2_1.20.7-5_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-5) ...
+Selecting previously unselected package libpython3.6:amd64.
+Preparing to unpack .../11-libpython3.6_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../12-vim-runtime_2%3a8.0.1453-1ubuntu1_all.deb ...
+Adding 'diversion of /usr/share/vim/vim80/doc/help.txt to /usr/share/vim/vim80/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim80/doc/tags to /usr/share/vim/vim80/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../13-vim_2%3a8.0.1453-1ubuntu1_amd64.deb ...
+Unpacking vim (2:8.0.1453-1ubuntu1) ...
+Setting up mime-support (3.60ubuntu1) ...
+Setting up xxd (2:8.0.1453-1ubuntu1) ...
+Setting up libgpm2:amd64 (1.20.7-5) ...
+Setting up libmagic-mgc (1:5.32-2ubuntu0.1) ...
+Setting up libmagic1:amd64 (1:5.32-2ubuntu0.1) ...
+Setting up libpython3.6-minimal:amd64 (3.6.7-1~18.04) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up xz-utils (5.2.2-1.3) ...
+update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzma.1.gz because associated file /usr/share/man/man1/xz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/unlzma.1.gz because associated file /usr/share/man/man1/unxz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcat.1.gz because associated file /usr/share/man/man1/xzcat.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzmore.1.gz because associated file /usr/share/man/man1/xzmore.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzless.1.gz because associated file /usr/share/man/man1/xzless.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzdiff.1.gz because associated file /usr/share/man/man1/xzdiff.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcmp.1.gz because associated file /usr/share/man/man1/xzcmp.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzgrep.1.gz because associated file /usr/share/man/man1/xzgrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzegrep.1.gz because associated file /usr/share/man/man1/xzegrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzfgrep.1.gz because associated file /usr/share/man/man1/xzfgrep.1.gz (of link group lzma) doesn't exist
+Setting up vim-common (2:8.0.1453-1ubuntu1) ...
+Setting up vim-runtime (2:8.0.1453-1ubuntu1) ...
+Setting up libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.7-1~18.04) ...
+Setting up file (1:5.32-2ubuntu0.1) ...
+Setting up libpython3.6:amd64 (3.6.7-1~18.04) ...
+Setting up vim (2:8.0.1453-1ubuntu1) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/vi.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/vi.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/vi.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/vi.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/vi.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/vi.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/view.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/view.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/view.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/view.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/view.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/ex.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/ex.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/ex.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/ex.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/ex.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/ex.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/editor.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/editor.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/editor.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/editor.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/editor.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group editor) doesn't exist
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+root@9c6c6c3b5281:/etc/default# nano jenkins
+bash: nano: command not found
+root@9c6c6c3b5281:/etc/default# vi jenkins
+root@9c6c6c3b5281:/etc/default# service jenkins stop
+Correct java version found
+ * Stopping Jenkins Automation Server jenkins                                                                                               [ OK ]
+root@9c6c6c3b5281:/etc/default# service jenkins status
+Correct java version found
+Jenkins Automation Server is not running
+root@9c6c6c3b5281:/etc/default# service jenkins start
+Correct java version found
+ * Starting Jenkins Automation Server jenkins                                                                                               [ OK ]
+root@9c6c6c3b5281:/etc/default# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.4  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:04  txqueuelen 0  (Ethernet)
+        RX packets 7857  bytes 13379704 (13.3 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 4996  bytes 277010 (277.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@9c6c6c3b5281:/etc/default# read escape sequence
+docker@boot2docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/jenkins    latest              2c79f54bd8a0        4 days ago          558MB
+rajarani/ubuntu     latest              ea4c82dcd15a        6 weeks ago         85.8MB
+centos              latest              75835a67d134        8 weeks ago         200MB
+jenkins             latest              cd14cecfdb3a        4 months ago        696MB
+docker@boot2docker:~$ dcoker ps -a
+-bash: dcoker: command not found
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                                                   NAMES
+9c6c6c3b5281        rajarani/jenkins    "/bin/bash"         9 minutes ago       Up 9 minutes        8080/tcp, 0.0.0.0:1000->1000/tcp, 0.0.0.0:60000->60000/tcp, 50000/tcp   jenkins26
+49ccd1ea197c        rajarani/jenkins    "/bin/bash"         10 minutes ago      Up 10 minutes       8080/tcp, 50000/tcp, 0.0.0.0:9090->9090/tcp                             dazzling_dubinsky
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago          Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp                        jenkins11
+docker@boot2docker:~$ docker rm jenkins26
+Error response from daemon: You cannot remove a running container 9c6c6c3b52818c5033d1bacc577ee6db03f46cd8abfb77bc6d3a1b75fa519d06. Stop the container before attempting removal or force remove
+docker@boot2docker:~$ docker rm -f jenkins26
+jenkins26
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                              NAMES
+49ccd1ea197c        rajarani/jenkins    "/bin/bash"         10 minutes ago      Up 10 minutes       8080/tcp, 50000/tcp, 0.0.0.0:9090->9090/tcp        dazzling_dubinsky
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago          Up 5 days           0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins11
+docker@boot2docker:~$ docker stop jenkins11
+jenkins11
+docker@boot2docker:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS                                         NAMES
+49ccd1ea197c        rajarani/jenkins    "/bin/bash"         11 minutes ago      Up 11 minutes              8080/tcp, 50000/tcp, 0.0.0.0:9090->9090/tcp   dazzling_dubinsky
+a11ee9dac78b        rajarani/ubuntu     "/bin/bash"         5 days ago          Exited (0) 3 seconds ago                                                 jenkins11
+docker@boot2docker:~$ docker attach dazzling_dubinsky
+root@49ccd1ea197c:/# cd /etc/default/
+root@49ccd1ea197c:/etc/default# ls
+cacerts  dbus  jenkins  motd-news  nss  useradd
+root@49ccd1ea197c:/etc/default# vi jenkins
+bash: vi: command not found
+root@49ccd1ea197c:/etc/default# apt-get install vim
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim-common vim-runtime xxd
+  xz-utils
+Suggested packages:
+  gpm ctags vim-doc vim-scripts
+The following NEW packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim vim-common vim-runtime xxd
+  xz-utils
+0 upgraded, 14 newly installed, 0 to remove and 0 not upgraded.
+Need to get 10.9 MB of archives.
+After this operation, 55.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://183.82.14.14:80/data/017e12bdbd145226/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic-mgc amd64 1:5.32-2ubuntu0.1 [184 kB]
+Get:2 http://183.82.14.138:80/data/017e34bd5914dfb4/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libmagic1 amd64 1:5.32-2ubuntu0.1 [68.4 kB]
+Get:3 http://183.82.14.138:80/data/017ee2bdc515ba46/archive.ubuntu.com/ubuntu bionic-updates/main amd64 file amd64 1:5.32-2ubuntu0.1 [22.1 kB]
+Get:4 http://183.82.14.14:80/data/017ee1bd9e15ceda/archive.ubuntu.com/ubuntu bionic/main amd64 libmpdec2 amd64 2.4.2-1ubuntu1 [84.1 kB]
+Get:5 http://183.82.14.14:80/data/017ea8bd4c16e16e/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-minimal amd64 3.6.7-1~18.04 [531 kB]
+Get:6 http://183.82.14.14:80/data/017e97bdee179d01/archive.ubuntu.com/ubuntu bionic/main amd64 mime-support all 3.60ubuntu1 [30.1 kB]
+Get:7 http://183.82.14.14:80/data/017edebd4317c786/archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6-stdlib amd64 3.6.7-1~18.04 [1711 kB]
+Err:8 http://183.82.14.138:80/data/017eadbd6718f717/archive.ubuntu.com/ubuntu bionic/main amd64 xxd amd64 2:8.0.1453-1ubuntu1
+  Redirection loop encountered
+Get:10 http://183.82.14.138:80/data/017e41bdce19e740/archive.ubuntu.com/ubuntu bionic/main amd64 xz-utils amd64 5.2.2-1.3 [83.8 kB]
+Get:9 http://183.82.14.14:80/data/017e4dbd631829ac/archive.ubuntu.com/ubuntu bionic/main amd64 vim-common all 2:8.0.1453-1ubuntu1 [70.4 kB]
+Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgpm2 amd64 1.20.7-5 [15.1 kB]
+Get:12 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libpython3.6 amd64 3.6.7-1~18.04 [1415 kB]
+Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 vim-runtime all 2:8.0.1453-1ubuntu1 [5437 kB]
+Get:14 http://archive.ubuntu.com/ubuntu bionic/main amd64 vim amd64 2:8.0.1453-1ubuntu1 [1152 kB]
+Fetched 10.8 MB in 7s (1546 kB/s)
+E: Failed to fetch http://183.82.14.138:80/data/017eadbd6718f717/archive.ubuntu.com/ubuntu/pool/main/v/vim/xxd_8.0.1453-1ubuntu1_amd64.deb  Redirection loop encountered
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+root@49ccd1ea197c:/etc/default# vi jenkins
+bash: vi: command not found
+root@49ccd1ea197c:/etc/default# apt-get install vim
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim-common vim-runtime xxd
+  xz-utils
+Suggested packages:
+  gpm ctags vim-doc vim-scripts
+The following NEW packages will be installed:
+  file libgpm2 libmagic-mgc libmagic1 libmpdec2 libpython3.6 libpython3.6-minimal libpython3.6-stdlib mime-support vim vim-common vim-runtime xxd
+  xz-utils
+0 upgraded, 14 newly installed, 0 to remove and 0 not upgraded.
+Need to get 49.2 kB/10.9 MB of archives.
+After this operation, 55.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://183.82.14.14:80/data/027e1fbd2c7fe79e/archive.ubuntu.com/ubuntu bionic/main amd64 xxd amd64 2:8.0.1453-1ubuntu1 [49.2 kB]
+Fetched 49.2 kB in 0s (203 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libmagic-mgc.
+(Reading database ... 5739 files and directories currently installed.)
+Preparing to unpack .../00-libmagic-mgc_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking libmagic-mgc (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package libmagic1:amd64.
+Preparing to unpack .../01-libmagic1_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking libmagic1:amd64 (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package file.
+Preparing to unpack .../02-file_1%3a5.32-2ubuntu0.1_amd64.deb ...
+Unpacking file (1:5.32-2ubuntu0.1) ...
+Selecting previously unselected package libmpdec2:amd64.
+Preparing to unpack .../03-libmpdec2_2.4.2-1ubuntu1_amd64.deb ...
+Unpacking libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Selecting previously unselected package libpython3.6-minimal:amd64.
+Preparing to unpack .../04-libpython3.6-minimal_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6-minimal:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package mime-support.
+Preparing to unpack .../05-mime-support_3.60ubuntu1_all.deb ...
+Unpacking mime-support (3.60ubuntu1) ...
+Selecting previously unselected package libpython3.6-stdlib:amd64.
+Preparing to unpack .../06-libpython3.6-stdlib_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6-stdlib:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package xxd.
+Preparing to unpack .../07-xxd_2%3a8.0.1453-1ubuntu1_amd64.deb ...
+Unpacking xxd (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package vim-common.
+Preparing to unpack .../08-vim-common_2%3a8.0.1453-1ubuntu1_all.deb ...
+Unpacking vim-common (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package xz-utils.
+Preparing to unpack .../09-xz-utils_5.2.2-1.3_amd64.deb ...
+Unpacking xz-utils (5.2.2-1.3) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../10-libgpm2_1.20.7-5_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-5) ...
+Selecting previously unselected package libpython3.6:amd64.
+Preparing to unpack .../11-libpython3.6_3.6.7-1~18.04_amd64.deb ...
+Unpacking libpython3.6:amd64 (3.6.7-1~18.04) ...
+Selecting previously unselected package vim-runtime.
+Preparing to unpack .../12-vim-runtime_2%3a8.0.1453-1ubuntu1_all.deb ...
+Adding 'diversion of /usr/share/vim/vim80/doc/help.txt to /usr/share/vim/vim80/doc/help.txt.vim-tiny by vim-runtime'
+Adding 'diversion of /usr/share/vim/vim80/doc/tags to /usr/share/vim/vim80/doc/tags.vim-tiny by vim-runtime'
+Unpacking vim-runtime (2:8.0.1453-1ubuntu1) ...
+Selecting previously unselected package vim.
+Preparing to unpack .../13-vim_2%3a8.0.1453-1ubuntu1_amd64.deb ...
+Unpacking vim (2:8.0.1453-1ubuntu1) ...
+Setting up mime-support (3.60ubuntu1) ...
+Setting up xxd (2:8.0.1453-1ubuntu1) ...
+Setting up libgpm2:amd64 (1.20.7-5) ...
+Setting up libmagic-mgc (1:5.32-2ubuntu0.1) ...
+Setting up libmagic1:amd64 (1:5.32-2ubuntu0.1) ...
+Setting up libpython3.6-minimal:amd64 (3.6.7-1~18.04) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Setting up xz-utils (5.2.2-1.3) ...
+update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzma.1.gz because associated file /usr/share/man/man1/xz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/unlzma.1.gz because associated file /usr/share/man/man1/unxz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcat.1.gz because associated file /usr/share/man/man1/xzcat.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzmore.1.gz because associated file /usr/share/man/man1/xzmore.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzless.1.gz because associated file /usr/share/man/man1/xzless.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzdiff.1.gz because associated file /usr/share/man/man1/xzdiff.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcmp.1.gz because associated file /usr/share/man/man1/xzcmp.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzgrep.1.gz because associated file /usr/share/man/man1/xzgrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzegrep.1.gz because associated file /usr/share/man/man1/xzegrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzfgrep.1.gz because associated file /usr/share/man/man1/xzfgrep.1.gz (of link group lzma) doesn't exist
+Setting up vim-common (2:8.0.1453-1ubuntu1) ...
+Setting up vim-runtime (2:8.0.1453-1ubuntu1) ...
+Setting up libmpdec2:amd64 (2.4.2-1ubuntu1) ...
+Setting up libpython3.6-stdlib:amd64 (3.6.7-1~18.04) ...
+Setting up file (1:5.32-2ubuntu0.1) ...
+Setting up libpython3.6:amd64 (3.6.7-1~18.04) ...
+Setting up vim (2:8.0.1453-1ubuntu1) ...
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vim (vim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vimdiff (vimdiff) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rvim (rvim) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/rview (rview) in auto mode
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/vi (vi) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/vi.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/vi.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/vi.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/vi.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/vi.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/vi.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group vi) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/view (view) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/view.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/view.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/view.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/view.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/view.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/view.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group view) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/ex (ex) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/ex.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/ex.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/ex.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/ex.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/ex.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/ex.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group ex) doesn't exist
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/editor.1.gz because associated file /usr/share/man/fr/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/it/man1/editor.1.gz because associated file /usr/share/man/it/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/pl/man1/editor.1.gz because associated file /usr/share/man/pl/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ru/man1/editor.1.gz because associated file /usr/share/man/ru/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/ja/man1/editor.1.gz because associated file /usr/share/man/ja/man1/vim.1.gz (of link group editor) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/vim.1.gz (of link group editor) doesn't exist
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+root@49ccd1ea197c:/etc/default# vi jenkins
+root@49ccd1ea197c:/etc/default# service jenkins status
+Correct java version found
+Jenkins Automation Server is not running, but the pidfile (/var/run/jenkins/jenkins.pid) still exists
+root@49ccd1ea197c:/etc/default# service jenkins stop
+Correct java version found
+ * Stopping Jenkins Automation Server jenkins                                                                                               [ OK ]
+root@49ccd1ea197c:/etc/default# service jenkins start
+Correct java version found
+ * Starting Jenkins Automation Server jenkins                                                                                               [ OK ]
+root@49ccd1ea197c:/etc/default# ^C
+root@49ccd1ea197c:/etc/default#
