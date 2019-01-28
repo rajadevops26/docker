@@ -1,0 +1,738 @@
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to ec2-user@34.203.249.107                           │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✘  (disabled or not supported by server)     │
+     │   • DISPLAY         : 192.168.1.4:0.0                              │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Last login: Mon Jan 28 09:01:14 2019 from 106.212.242.241
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+3 package(s) needed for security, out of 3 available
+Run "sudo yum update" to apply all updates.
+[ec2-user@ip-172-31-85-217 ~]$ sudo -i
+[root@ip-172-31-85-217 ~]# docker images
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+[root@ip-172-31-85-217 ~]# clear
+[root@ip-172-31-85-217 ~]# stsytemctl status docker
+-bash: stsytemctl: command not found
+[root@ip-172-31-85-217 ~]# systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: https://docs.docker.com
+[root@ip-172-31-85-217 ~]# systemctl start docker
+[root@ip-172-31-85-217 ~]# systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/usr/lib/systemd/system/docker.service; disabled; vendor preset: disabled)
+   Active: active (running) since Mon 2019-01-28 10:09:29 UTC; 3s ago
+     Docs: https://docs.docker.com
+  Process: 3375 ExecStartPre=/usr/libexec/docker/docker-setup-runtimes.sh (code=exited, status=0/SUCCESS)
+  Process: 3337 ExecStartPre=/bin/mkdir -p /run/docker (code=exited, status=0/SUCCESS)
+ Main PID: 3383 (dockerd)
+    Tasks: 18
+   Memory: 120.1M
+   CGroup: /system.slice/docker.service
+           ├─3383 /usr/bin/dockerd --default-ulimit nofile=1024:4096
+           └─3396 docker-containerd --config /var/run/docker/containerd/conta...
+
+Jan 28 10:09:28 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:28 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:28 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal systemd[1]: Started Docker Appl...
+Jan 28 10:09:29 ip-172-31-85-217.ec2.internal dockerd[3383]: time="2019-01-28...
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# cat /etc/issue
+\S
+Kernel \r on an \m
+
+[root@ip-172-31-85-217 ~]# vi dockerfile
+[root@ip-172-31-85-217 ~]# ls
+dockerfile  get-docker.sh
+[root@ip-172-31-85-217 ~]# docker build -t kernel^C
+[root@ip-172-31-85-217 ~]# vi dockerfile
+[root@ip-172-31-85-217 ~]# docker build -t kernel .
+Sending build context to Docker daemon  24.58kB
+Step 1/3 : FROM kernel
+pull access denied for kernel, repository does not exist or may require 'docker login'
+[root@ip-172-31-85-217 ~]# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: rajarani
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[root@ip-172-31-85-217 ~]# docker build -t kernel .
+Sending build context to Docker daemon  26.11kB
+Step 1/3 : FROM kernel
+pull access denied for kernel, repository does not exist or may require 'docker login'
+[root@ip-172-31-85-217 ~]# docker build -t linux .
+Sending build context to Docker daemon  26.11kB
+Step 1/3 : FROM kernel
+pull access denied for kernel, repository does not exist or may require 'docker login'
+[root@ip-172-31-85-217 ~]# vi dockerfile
+[root@ip-172-31-85-217 ~]# docker build -t linux .
+Sending build context to Docker daemon  26.11kB
+Step 1/3 : FROM linux
+pull access denied for linux, repository does not exist or may require 'docker login'
+[root@ip-172-31-85-217 ~]# vi dockerfile
+[root@ip-172-31-85-217 ~]# docker build -t linux .
+Sending build context to Docker daemon  26.11kB
+Step 1/3 : FROM kernel:latest
+pull access denied for kernel, repository does not exist or may require 'docker login'
+[root@ip-172-31-85-217 ~]# docker pull linuxkit/kernel
+Using default tag: latest
+Error response from daemon: manifest for linuxkit/kernel:latest not found
+[root@ip-172-31-85-217 ~]# docker pull linuxkit/kernel:4.14.95
+4.14.95: Pulling from linuxkit/kernel
+0d1707988d35: Pull complete
+Digest: sha256:7fa19945f9e07efee93947df0027893655dd2d32334f9a0de7693fe8ad71c464
+Status: Downloaded newer image for linuxkit/kernel:4.14.95
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+linuxkit/kernel     4.14.95             b5019b4b7801        2 days ago          282MB
+[root@ip-172-31-85-217 ~]# docker run -ti --name kernel linuxkit/kernel
+Unable to find image 'linuxkit/kernel:latest' locally
+docker: Error response from daemon: manifest for linuxkit/kernel:latest not found.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -ti --name kernel linuxkit/kernel:4.14.95
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid --name kernel linuxkit/kerne
+Unable to find image 'linuxkit/kerne:latest' locally
+docker: Error response from daemon: pull access denied for linuxkit/kerne, repository does not exist or may require 'docker login'.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid --name kernel linuxkit/kernel
+Unable to find image 'linuxkit/kernel:latest' locally
+docker: Error response from daemon: manifest for linuxkit/kernel:latest not found.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid linuxkit/kernel
+Unable to find image 'linuxkit/kernel:latest' locally
+docker: Error response from daemon: manifest for linuxkit/kernel:latest not found.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+linuxkit/kernel     4.14.95             b5019b4b7801        2 days ago          282MB
+[root@ip-172-31-85-217 ~]# docker run -tid --name raja b5019b4b7801
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid --name raja linuxkit/kernel:4.14.95
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid --name raja b5019b4b7801
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# docker run -tid b5019b4b7801
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid linuxkit/kernel
+Unable to find image 'linuxkit/kernel:latest' locally
+docker: Error response from daemon: manifest for linuxkit/kernel:latest not found.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid linuxkit/kernel:4.14
+Unable to find image 'linuxkit/kernel:4.14' locally
+4.14: Pulling from linuxkit/kernel
+6e63f6a554dd: Pull complete
+Digest: sha256:97a02d6c435e7fbf0b4ee49a71305a31deb0086e03777c98cc6bc8cf8df31e73
+Status: Downloaded newer image for linuxkit/kernel:4.14
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# ls
+dockerfile  get-docker.sh
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+linuxkit/kernel     4.14.95             b5019b4b7801        2 days ago          282MB
+linuxkit/kernel     4.14                7303a1ac1b0f        14 months ago       162MB
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# docker run -tid linuxkit/kernel:4.14
+docker: Error response from daemon: No command specified.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid linuxkit/kernel
+Unable to find image 'linuxkit/kernel:latest' locally
+docker: Error response from daemon: manifest for linuxkit/kernel:latest not found.
+See 'docker run --help'.
+[root@ip-172-31-85-217 ~]# docker run -tid timbr/timbr-dg-kernel
+Unable to find image 'timbr/timbr-dg-kernel:latest' locally
+latest: Pulling from timbr/timbr-dg-kernel
+f5c64a3438f6: Pulling fs layer
+51899d335aae: Pulling fs layer
+6ff2b7de3c13: Pulling fs layer
+50366c31f7fd: Pulling fs layer
+f441b9a68d13: Pulling fs layer
+aea172db1911: Pulling fs layer
+07fdbea5a6df: Pulling fs layer
+5d3820a817fa: Pull complete
+a5cc097120c3: Pull complete
+fe2e4a715910: Pull complete
+9e35d3e02a56: Pull complete
+c7eb16eb0b30: Pull complete
+77c76a497586: Pull complete
+a0aae997f856: Pull complete
+da4cf0926b74: Pull complete
+7fdfffa08105: Pull complete
+45168b88232c: Pull complete
+989d0b402e06: Pull complete
+a4d1859fbf56: Pull complete
+4e83fb16894a: Pull complete
+ee8df12cc94e: Pull complete
+637115738418: Pull complete
+0c5dde604a82: Pull complete
+e69f1034b844: Pull complete
+0c745a470029: Pull complete
+69fce3d86af4: Pull complete
+1d2bbb0a2bfb: Pull complete
+884ab2a5eb89: Pull complete
+89e1be931b94: Pull complete
+df29a8e5194e: Pull complete
+0c70829fbf1c: Pull complete
+10e93e899d77: Pull complete
+Digest: sha256:98b2d2d28ac2492301eb950f4225975322adb29fa5a9182d93d7fff2cf0d5a7f
+Status: Downloaded newer image for timbr/timbr-dg-kernel:latest
+defad47f18cd8f6c47a0346d9743b30216bbc8676d957757f8042908151d289f
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS              PORTS               NAMES
+defad47f18cd        timbr/timbr-dg-kernel   "/usr/bin/dumb-init …"   9 seconds ago       Up 8 seconds                            quizzical_edison
+[root@ip-172-31-85-217 ~]# dcoker attach defad47f18cd
+-bash: dcoker: command not found
+[root@ip-172-31-85-217 ~]# docker attach defad47f18cd
+2019-01-28 10:40:15 circus[6] [INFO] Got signal SIG_WINCH
+2019-01-28 10:40:15 circus[6] [INFO] Got signal SIG_WINCH
+2019-01-28 10:40:17+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:40:17+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d85837d0>
+2019-01-28 10:40:27+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:40:27+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8583e90>
+2019-01-28 10:40:37+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:40:37+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d858ea50>
+2019-01-28 10:40:47+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:40:47+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d858e650>
+2019-01-28 10:40:57+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:40:57+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8598d90>
+2019-01-28 10:41:07+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:07+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d85988d0>
+2019-01-28 10:41:17+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:17+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d85acf10>
+2019-01-28 10:41:27+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:27+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d85aca50>
+2019-01-28 10:41:37+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:37+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d854e150>
+2019-01-28 10:41:47+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:47+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d853ecd0>
+2019-01-28 10:41:57+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:41:57+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d85563d0>
+2019-01-28 10:42:07+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:07+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8556f50>
+2019-01-28 10:42:17+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:17+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8564690>
+2019-01-28 10:42:27+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:27+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8564e50>
+2019-01-28 10:42:37+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:37+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d84f9950>
+2019-01-28 10:42:47+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:47+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d84f93d0>
+2019-01-28 10:42:57+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:42:57+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d84ffbd0>
+2019-01-28 10:43:07+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:43:07+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d84ff710>
+ 2019-01-28 10:43:17+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:43:17+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8521f50>
+2019-01-28 10:43:27+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:43:27+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d8515990>
+2019-01-28 10:43:37+0000 [-] Snapshot component attempting to connect...
+2019-01-28 10:43:37+0000 [Uninitialized] <autobahn.twisted.websocket.WampWebSocketClientProtocol object at 0x7fb9d84b4090>
+^C2019-01-28 10:43:42 circus[6] [INFO] Got signal SIG_INT
+2019-01-28 10:43:42 circus[6] [INFO] Arbiter exiting
+2019-01-28 10:43:42 circus[6] [DEBUG] stopping the captd watcher
+2019-01-28 10:43:42 circus[6] [DEBUG] gracefully stopping processes [captd] for 30.0s
+2019-01-28 10:43:42 circus[6] [DEBUG] captd: kill process 10
+2019-01-28 10:43:42 circus[6] [DEBUG] sending signal 15 to 10
+2019-01-28 10:43:42+0000 [-] Received SIGTERM, shutting down.
+2019-01-28 10:43:42+0000 [-] Main loop terminated.
+2019-01-28 10:43:42 circus[6] [DEBUG] stopping the kernel watcher
+2019-01-28 10:43:42 circus[6] [DEBUG] gracefully stopping processes [kernel] for 30.0s
+2019-01-28 10:43:42 circus[6] [DEBUG] kernel: kill process 11
+2019-01-28 10:43:42 circus[6] [DEBUG] sending signal 15 to 11
+2019-01-28 10:43:42 circus[6] [DEBUG] reaping already dead process 11 [kernel]
+2019-01-28 10:43:42 circus[6] [INFO] kernel stopped
+2019-01-28 10:43:42 circus[6] [DEBUG] stopping the snapd watcher
+2019-01-28 10:43:42 circus[6] [DEBUG] gracefully stopping processes [snapd] for 30.0s
+2019-01-28 10:43:42 circus[6] [DEBUG] snapd: kill process 12
+2019-01-28 10:43:42 circus[6] [DEBUG] sending signal 15 to 12
+2019-01-28 10:43:42+0000 [-] Received SIGTERM, shutting down.
+2019-01-28 10:43:42+0000 [-] Main loop terminated.
+2019-01-28 10:43:42 circus[6] [DEBUG] stopping the wampify watcher
+2019-01-28 10:43:42 circus[6] [DEBUG] gracefully stopping processes [wampify] for 30.0s
+2019-01-28 10:43:42 circus[6] [DEBUG] wampify: kill process 13
+2019-01-28 10:43:42 circus[6] [DEBUG] sending signal 15 to 13
+2019-01-28 10:43:42 circus[6] [DEBUG] reaping already dead process 13 [wampify]
+2019-01-28 10:43:42 circus[6] [INFO] wampify stopped
+2019-01-28 10:43:42 circus[6] [DEBUG] reaping already dead process 10 [captd]
+2019-01-28 10:43:42 circus[6] [INFO] captd stopped
+2019-01-28 10:43:42 circus[6] [DEBUG] reaping already dead process 12 [snapd]
+2019-01-28 10:43:42 circus[6] [INFO] snapd stopped
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS                      PORTS               NAMES
+defad47f18cd        timbr/timbr-dg-kernel   "/usr/bin/dumb-init …"   4 minutes ago       Exited (0) 12 seconds ago                       quizzical_edison
+[root@ip-172-31-85-217 ~]# docker rm defad47f18cd\
+>
+
+
+defad47f18cd
+[root@ip-172-31-85-217 ~]#
+[root@ip-172-31-85-217 ~]#
+[root@ip-172-31-85-217 ~]# docker rm defad47f18cd
+Error: No such container: defad47f18cd
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# dcoker images
+-bash: dcoker: command not found
+[root@ip-172-31-85-217 ~]# docker imasges
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/root/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/root/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/root/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/root/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+linuxkit/kernel         4.14.95             b5019b4b7801        2 days ago          282MB
+timbr/timbr-dg-kernel   latest              8536dbc90a79        13 months ago       4.18GB
+linuxkit/kernel         4.14                7303a1ac1b0f        14 months ago       162MB
+[root@ip-172-31-85-217 ~]# docker rmi linuxkit/kernel
+Error: No such image: linuxkit/kernel
+[root@ip-172-31-85-217 ~]# docker rmi linuxkit/kernel:4.14
+Untagged: linuxkit/kernel:4.14
+Untagged: linuxkit/kernel@sha256:97a02d6c435e7fbf0b4ee49a71305a31deb0086e03777c98cc6bc8cf8df31e73
+Deleted: sha256:7303a1ac1b0f77a6203a0372533881de8e2c1f3313d2ded90507f658c3869237
+Deleted: sha256:3ea17ec2dc56d0a0ff23bf296c1b03dc193bde9b0805398a1178d7d5cff92add
+[root@ip-172-31-85-217 ~]# docker rmi linuxkit/kernel
+Error: No such image: linuxkit/kernel
+[root@ip-172-31-85-217 ~]# docker rmi linuxkit/kernel:4.14.95
+Untagged: linuxkit/kernel:4.14.95
+Untagged: linuxkit/kernel@sha256:7fa19945f9e07efee93947df0027893655dd2d32334f9a0de7693fe8ad71c464
+Deleted: sha256:b5019b4b780124323d28f81e18d983f76c5f4bde84e877251f8a76ab9567898d
+Deleted: sha256:022ef42fbabb0eecaeb4476b3ce44d0861c7a2566c0fe951268257261bddfb00
+[root@ip-172-31-85-217 ~]# docker rmi timbr/timbr-dg-kernel
+Untagged: timbr/timbr-dg-kernel:latest
+Untagged: timbr/timbr-dg-kernel@sha256:98b2d2d28ac2492301eb950f4225975322adb29fa5a9182d93d7fff2cf0d5a7f
+Deleted: sha256:8536dbc90a7924052add4cc5c69d5ffeccf1cc3ddeecb08b82005ab3113fbf32
+Deleted: sha256:99faeba4fb828c5fd4e718af770f44559c508724f77cae264322c4dd27182d70
+Deleted: sha256:1f4d008c284c4f5c7cc5cef4556a7aa70487e371ca847bd7ab22edf0d12e6daf
+Deleted: sha256:c0ca2f9099910977857aa38000ab31df596939de8f64210aada4691ab150bb6d
+Deleted: sha256:25fc948baecbc624e6b8d7d812ffb6c3756bf0f658eb99b34cf7c465ef3a7cb5
+Deleted: sha256:50ea048e0a8a7e2697da4994b80e7efb40e71eb7823084b90935fd1576d4e579
+Deleted: sha256:c558375412978b557282ae113398a93be6782e32c3205a898606c7bc9f97785a
+Deleted: sha256:f06f6c5e6c848f305a8f198bcda059250ce4aeb31fbc57d546ebba4934817732
+Deleted: sha256:6b02d9b83b512ca7453237adb546c3d7aa2dde420a860036ed724877d2f955ad
+Deleted: sha256:dbda2b8ec30b488ccbd18c09b7d493750c995830d1769b3ba10f68d7be6675db
+Deleted: sha256:d1dffb5a5e474be983cfeae0c6b73f7d6046aad81165d3859c16e3c12a213b5a
+Deleted: sha256:45abb6f74675a65b04f22dd8fac62111ed2c8dec68fc6a4124a18a5719e10061
+Deleted: sha256:114ed226b76c7d77731ef56c6cdcd3d377b6216842d0f731454e3449b0a4c235
+Deleted: sha256:0805c3cf838ebb7dad704d242aae1a264120506c8c49695daad9831f9ba3b921
+Deleted: sha256:7e9f27c44a413d52fdf4e2b6a69202e1c995d36ead82075957e8b2beab8a7676
+Deleted: sha256:6aa1241e2b25aa2f22d021014ec24eee13db2a277970df277abde908f498ec1a
+Deleted: sha256:d0704362e65491d61d4a0dae2ae8cd3f8af8bd50f3e88278e96f59a753501cfa
+Deleted: sha256:8e312f89788bd242fcb3430e4b3c168905f3f1e85d411c907511f3afe060b105
+Deleted: sha256:f9a593d6fbe1ffc8e28ac11aa8b8e29eeb7426b3b63ada1bc5b0639ac079b46c
+Deleted: sha256:db1ea81f1be0d1239d3cc125683d9765a723c669fe9284e8f112aadef576a204
+Deleted: sha256:a9f50d7ccea869acc6cb2887a36972c66affe853748047774be38c247b06b4c8
+Deleted: sha256:61906fab5887970aaa28e1575884d145562deed4deff8e010f787d97fe11c3d2
+Deleted: sha256:6a46e7ca6e5e908cf18e7c251d1480f36d2ffe2ab76f63b532207dbe16d63d32
+Deleted: sha256:da8bdf090119b36ff8167c7f8936d2630bc44bc224bb85bdb0ca6ed85027a421
+Deleted: sha256:5202b8685aaa198498173baa854a4978dc0107d7ec120bb2d2e59bbd9a1c6300
+Deleted: sha256:3986569a24bd3216725307a0774405e392799ec44cb09aef86125533582042cb
+Deleted: sha256:8235a4e70c31e56fc45c92fb8483d74588359ea859f4529599f920e876c9e613
+Deleted: sha256:fd5940c4952bea0b0378589b47ee40e84e9e532f044721ee87ca762323c3cc4b
+Deleted: sha256:adc0a18ffadb2aebfa87c026bd2792c2b95f450ea67885768bdf3453b212b9a2
+Deleted: sha256:b9df66fbc227e6168ef4f95505b46ceb6d5df990e00e1feaf9d768becc2b4922
+Deleted: sha256:1d7586b8357604888c3e49e7f06696c2159df21169956dadd5484b5b02409242
+Deleted: sha256:c57a0f193f3381cf7f9129f7009b631e452a8b5789ff0d427b1050b6c3edf861
+Deleted: sha256:a2022691bf950a72f9d2d84d557183cb9eee07c065a76485f1695784855c5193
+[root@ip-172-31-85-217 ~]# vi dockerfile
+[root@ip-172-31-85-217 ~]# docker build -t kernel .
+Sending build context to Docker daemon  26.11kB
+Step 1/3 : FROM scratch
+ --->
+Step 2/3 : RUN yum update -y
+ ---> Running in bf30d094c2b7
+OCI runtime create failed: container_linux.go:348: starting container process caused "exec: \"/bin/sh\": stat /bin/sh: no such file or directory": unknown
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+[root@ip-172-31-85-217 ~]# docker pull amazonlinux
+Using default tag: latest
+latest: Pulling from library/amazonlinux
+6c5ec16d4336: Pull complete
+Digest: sha256:96ca49cf7429e47f8e29f4460cc396cc68f250909d0ffcf3f75a570801e1751a
+Status: Downloaded newer image for amazonlinux:latest
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker run -itd --name raja amazonlinux
+a27751192d0c059ec0cc1151bb76139b350f7cd2dc3b8a057b9dda0361036fa7
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+a27751192d0c        amazonlinux         "/bin/bash"              10 seconds ago      Up 9 seconds                            raja
+bf30d094c2b7        <no image>          "/bin/sh -c 'yum upd…"   3 minutes ago       Created                                 kind_shirley
+[root@ip-172-31-85-217 ~]# docker attach raja
+bash-4.2# ls
+bin   dev  home  lib64  media  opt   root  sbin  sys  usr
+boot  etc  lib   local  mnt    proc  run   srv   tmp  var
+bash-4.2# cat /etc/issue
+\S
+Kernel \r on an \m
+
+bash-4.2# exit
+exit
+[root@ip-172-31-85-217 ~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# docker ps-a
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default
+                           "/root/.docker")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level
+                           ("debug"|"info"|"warn"|"error"|"fatal")
+                           (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "/root/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "/root/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "/root/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  config      Manage Docker configs
+  container   Manage containers
+  image       Manage images
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                      PORTS               NAMES
+a27751192d0c        amazonlinux         "/bin/bash"              About a minute ago   Exited (0) 44 seconds ago                       raja
+bf30d094c2b7        <no image>          "/bin/sh -c 'yum upd…"   4 minutes ago        Created                                         kind_shirley
+[root@ip-172-31-85-217 ~]# docker commit a27751192d0c rajarani/kernel:latest
+sha256:feaa69e46184c1a9578cb4d0e271e39317112aa9c919fef674eee786d7ae3d52
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/kernel     latest              feaa69e46184        12 seconds ago      162MB
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker tag feaa69e46184 rajarani/kernel
+[root@ip-172-31-85-217 ~]# docker tag feaa69e46184 rajarani/linux
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/kernel     latest              feaa69e46184        2 minutes ago       162MB
+rajarani/linux      latest              feaa69e46184        2 minutes ago       162MB
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker push rajarani/kernel
+The push refers to repository [docker.io/rajarani/kernel]
+d8e8b4ef4b32: Pushed
+5174cb14ea84: Mounted from library/amazonlinux
+latest: digest: sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df size: 736
+[root@ip-172-31-85-217 ~]# docker push rajarani/linux
+The push refers to repository [docker.io/rajarani/linux]
+d8e8b4ef4b32: Mounted from rajarani/kernel
+5174cb14ea84: Mounted from rajarani/kernel
+latest: digest: sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df size: 736
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/kernel     latest              feaa69e46184        5 minutes ago       162MB
+rajarani/linux      latest              feaa69e46184        5 minutes ago       162MB
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker logout
+Removing login credentials for https://index.docker.io/v1/
+[root@ip-172-31-85-217 ~]# docker rmi feaa69e46184
+Error response from daemon: conflict: unable to delete feaa69e46184 (must be forced) - image is referenced in multiple repositories
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS               NAMES
+a27751192d0c        amazonlinux         "/bin/bash"              8 minutes ago       Exited (0) 7 minutes ago                       raja
+bf30d094c2b7        <no image>          "/bin/sh -c 'yum upd…"   11 minutes ago      Created                                        kind_shirley
+[root@ip-172-31-85-217 ~]# docker rm raja
+raja
+[root@ip-172-31-85-217 ~]# docker rm bf30d094c2b7
+bf30d094c2b7
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/kernel     latest              feaa69e46184        6 minutes ago       162MB
+rajarani/linux      latest              feaa69e46184        6 minutes ago       162MB
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker rmi feaa69e46184
+Error response from daemon: conflict: unable to delete feaa69e46184 (must be forced) - image is referenced in multiple repositories
+[root@ip-172-31-85-217 ~]# docker rmi rajarani/kernel
+Untagged: rajarani/kernel:latest
+Untagged: rajarani/kernel@sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df
+[root@ip-172-31-85-217 ~]# docker rmi rajarani/linux
+Untagged: rajarani/linux:latest
+Untagged: rajarani/linux@sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df
+Deleted: sha256:feaa69e46184c1a9578cb4d0e271e39317112aa9c919fef674eee786d7ae3d52
+Deleted: sha256:bf1ca0f46ad015e3ed6eae285885f157f9490888d5ae9545cfb59a4a7f551868
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+amazonlinux         latest              df7d0b6ddeee        6 days ago          162MB
+[root@ip-172-31-85-217 ~]# docker rmi amazonlinux
+Untagged: amazonlinux:latest
+Untagged: amazonlinux@sha256:96ca49cf7429e47f8e29f4460cc396cc68f250909d0ffcf3f75a570801e1751a
+Deleted: sha256:df7d0b6ddeee853755155747b332882d4ed84813748e76ca74d6939d0157deb6
+Deleted: sha256:5174cb14ea8448f0d135b8a4655c4f8ebacd5190b6838a2540790ca7589b2c91
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+[root@ip-172-31-85-217 ~]# docker pull rajarani/linux
+Using default tag: latest
+latest: Pulling from rajarani/linux
+6c5ec16d4336: Pull complete
+14e9c0a19d19: Pull complete
+Digest: sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df
+Status: Downloaded newer image for rajarani/linux:latest
+[root@ip-172-31-85-217 ~]# DOCKER IMAGES
+-bash: DOCKER: command not found
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/linux      latest              feaa69e46184        9 minutes ago       162MB
+[root@ip-172-31-85-217 ~]# docker pull oraclelinux
+Using default tag: latest
+latest: Pulling from library/oraclelinux
+ec5b6551a9f1: Pull complete
+Digest: sha256:91c0db0ba7295d7a07fcb566422b198050231b94be016a17a2c46e5e7234319d
+Status: Downloaded newer image for oraclelinux:latest
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+rajarani/linux      latest              feaa69e46184        14 minutes ago      162MB
+oraclelinux         latest              2af06fa9426e        12 days ago         234MB
+[root@ip-172-31-85-217 ~]# docker run -tid --name raja oraclelinux
+2f79261ff070d2d981086306c87574f8f37027722e6afd436cf6aeeb987716a4
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+2f79261ff070        oraclelinux         "/bin/bash"         8 seconds ago       Up 7 seconds                            raja
+[root@ip-172-31-85-217 ~]# docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: rajarani
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[root@ip-172-31-85-217 ~]# docker commit 2f79261ff070 rajarani/oraclelinux:latest
+sha256:e303bca94b5fc12d7c18ef7d47493d4e480d5bba0643a37553c67bcab595fb6f
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+rajarani/oraclelinux   latest              e303bca94b5f        9 seconds ago       234MB
+rajarani/linux         latest              feaa69e46184        17 minutes ago      162MB
+oraclelinux            latest              2af06fa9426e        12 days ago         234MB
+[root@ip-172-31-85-217 ~]# docker tag e303bca94b5f rajarani/oraclelinux
+[root@ip-172-31-85-217 ~]# docker push rajarani/oraclelinux
+The push refers to repository [docker.io/rajarani/oraclelinux]
+b70a01d090e1: Mounted from library/oraclelinux
+latest: digest: sha256:9be673cfc6bc6ef2be3b36c712f4501dc5af2a48c8cff96aeb5ce4c8532771d6 size: 529
+[root@ip-172-31-85-217 ~]# docker logout
+Removing login credentials for https://index.docker.io/v1/
+[root@ip-172-31-85-217 ~]# dcoker ps -a
+-bash: dcoker: command not found
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+2f79261ff070        oraclelinux         "/bin/bash"         4 minutes ago       Up 4 minutes                            raja
+[root@ip-172-31-85-217 ~]# dcoker rm 2f79261ff070
+-bash: dcoker: command not found
+[root@ip-172-31-85-217 ~]# docker rm 2f79261ff070
+Error response from daemon: You cannot remove a running container 2f79261ff070d2d981086306c87574f8f37027722e6afd436cf6aeeb987716a4. Stop the container before attempting removal or force remove
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+rajarani/oraclelinux   latest              e303bca94b5f        2 minutes ago       234MB
+rajarani/linux         latest              feaa69e46184        19 minutes ago      162MB
+oraclelinux            latest              2af06fa9426e        12 days ago         234MB
+[root@ip-172-31-85-217 ~]# docker rmi
+"docker rmi" requires at least 1 argument.
+See 'docker rmi --help'.
+
+Usage:  docker rmi [OPTIONS] IMAGE [IMAGE...]
+
+Remove one or more images
+[root@ip-172-31-85-217 ~]# docker rmi rajarani/oraclelinux
+Untagged: rajarani/oraclelinux:latest
+Untagged: rajarani/oraclelinux@sha256:9be673cfc6bc6ef2be3b36c712f4501dc5af2a48c8cff96aeb5ce4c8532771d6
+Deleted: sha256:e303bca94b5fc12d7c18ef7d47493d4e480d5bba0643a37553c67bcab595fb6f
+[root@ip-172-31-85-217 ~]# docker rmi rajarani/linux
+Untagged: rajarani/linux:latest
+Untagged: rajarani/linux@sha256:a2c69a920fb2b5beac608652aa439023f76bf8e146a52f707f6d8b7133fee3df
+Deleted: sha256:feaa69e46184c1a9578cb4d0e271e39317112aa9c919fef674eee786d7ae3d52
+Deleted: sha256:bf1ca0f46ad015e3ed6eae285885f157f9490888d5ae9545cfb59a4a7f551868
+Deleted: sha256:5174cb14ea8448f0d135b8a4655c4f8ebacd5190b6838a2540790ca7589b2c91
+[root@ip-172-31-85-217 ~]# docker rmi oraclelinux
+Error response from daemon: conflict: unable to remove repository reference "oraclelinux" (must force) - container 2f79261ff070 is using its referenced image 2af06fa9426e
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+2f79261ff070        oraclelinux         "/bin/bash"         5 minutes ago       Up 5 minutes                            raja
+[root@ip-172-31-85-217 ~]# docker rm 2f79261ff070
+Error response from daemon: You cannot remove a running container 2f79261ff070d2d981086306c87574f8f37027722e6afd436cf6aeeb987716a4. Stop the container before attempting removal or force remove
+[root@ip-172-31-85-217 ~]# docker stop 2f79261ff070
+2f79261ff070
+[root@ip-172-31-85-217 ~]# docker rm 2f79261ff070
+2f79261ff070
+[root@ip-172-31-85-217 ~]# docker rmi oraclelinux
+Untagged: oraclelinux:latest
+Untagged: oraclelinux@sha256:91c0db0ba7295d7a07fcb566422b198050231b94be016a17a2c46e5e7234319d
+Deleted: sha256:2af06fa9426e44ca019d2e3a3e0d9f90069e0b4da3f223d352065e64585931a6
+Deleted: sha256:b70a01d090e1c63d6061b28117fb778d78b47a8c7c5cb8766b6129005b7742de
+[root@ip-172-31-85-217 ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+[root@ip-172-31-85-217 ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+[root@ip-172-31-85-217 ~]#
