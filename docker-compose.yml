@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+   tomcat:
+     #image: tomcat:8.5
+     build: 
+       context: ./tomcat
+       #dockerfile: ./tomcat/Dockerfile
+     ports:
+       - "8080:8080"
+     restart: always
+     environment:
+       JDBC_URL: jdbc:mysql://db:3306/example_db?connectTimeout=0&amp;socketTimeout=0&amp;autoReconnect=true
+       #JDBC_PASS: example_db_pass
+       #JDBC_USER: example_db_user
+       #JDBC_PASS: example_db_pass
+       #MYSQL_USER: wordpress
+       #MYSQL_PASSWORD: wordpress
+
+   nginx:
+     depends_on:
+       - tomcat
+     #image: nginx:latest
+     build: 
+       context: ./nginx
+       #dockerfile: ./nginx/Dockerfile
+     ports:
+       - "80:80"
+     restart: always
+     environment:
+       JDBC_URL: jdbc:mysql://db:3306/example_db?connectTimeout=0&amp;socketTimeout=0&amp;autoReconnect=true
