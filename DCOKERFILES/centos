@@ -1,0 +1,14 @@
+From centos:7
+Maintainer Manoj Jannu
+RUN yum -y install wget
+RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" 
+http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+RUN tar -zxvf jdk-8u131-linux-x64.tar.gz
+ENV JAVA_HOME /jdk1.8.0_131
+ENV PATH /jdk1.8.0_131/bin:$PATH
+ADD DAPInstallationScript /
+ADD DAPInstallationImage.zip /
+ADD SoftwareAGInstaller103.jar /
+RUN mkdir -p /home/testuser
+ADD license/ /home/testuser/license/
+RUN java -jar SoftwareAGInstaller103.jar -readScript ./DAPInstallationScript ;echo Succcesfully Installed;exit
