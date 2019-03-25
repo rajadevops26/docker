@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+     database:
+       image: mysql:5.7
+       container_name: mysqldb
+       volumes:
+        - ./my.cnf:/etc/mysql/my.cnf
+       ports:
+        - "3306:3306"
+       environment:
+        MYSQL_DATABASE: "productdb"
+        MYSQL_ROOT_PASSWORD: "manage"
+        MYSQL_ROOT_HOST: "%"
+       healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "mysqldb"]
+        timeout: 20s
+        retries: 10
+      
+     agileapp:
+       image: dapimage:v10.3
+       command: bash -c "cd /home/testuser/SoftwareAG/common/db/bin && 
+./dbConfigurator.sh -a create -c All -v latest -d mysqlc -l 
+jdbc:mysql://mysqldb:3306/productdb -u root -p manage && cd 
+/home/testuser/SoftwareAG/IntegrationServer/instances && ./is_instance.sh update 
+-Dinstance.name=default -Dpackage.list=WmAgileApps && cd 
+/home/testuser/SoftwareAG/IntegrationServer/instances/default/bin/ && ./server.sh 
+&& cd /home/testuser/SoftwareAG/MWS/server/default/bin && ./run.sh"
+       container_name: agileapp
+       ports:
+        - "5555:5555"
+        - "8284:8284"
+        - "8585:8585"   
+       environment:
+        - DEBUG=1
+       restart: always
+       container_name: agileapp
+       depends_on:
+        database:
+         condition: service_healthy
