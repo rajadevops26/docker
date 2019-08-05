@@ -1,0 +1,15 @@
+FROM rajarani/kernel
+MAINTAINER rajarani <rajarani@admin.com>
+RUN yum update -y && yum clean all
+RUN mkdir /home/java
+RUN mkdir /home/java/src
+# Default search by copy in /mnt/sda1/var/lib/docker/tmp
+COPY jdk-8u211-linux-x64.rpm /home/java/src
+WORKDIR /home/java
+ENV JAVA_VERSION 1.8.0_211 
+RUN rpm -ivh /home/java/src/jdk-8u211-linux-x64.rpm
+ENV JAVA_HOME /usr/java/jdk1.8.0_211-amd64
+RUN export JAVA_HOME
+RUN echo "$JAVA_HOME"
+VOLUME /home/java
+EXPOSE 8080
