@@ -1,0 +1,104 @@
+source /etc/profile.d/mavenenv.sh
+alias startj="service jenkins start"   ---->start jenkins(8081)
+up ---------------> start tomcat  (8080)
+docker run -it -p 8080-8099:8080-8099/tcp --name jenkins ujjg
+
+
+
+FROM rajarani/ubuntu:latest
+MAINTAINER rajarani <rajarani@admin.com>
+USER root
+ENV JAVA_OPTS="-Xmx8192m"
+ENV JENKINS_OPTS=" --handlerCountMax=300"
+
+ARG DEBIAN_FRONTEND=noninteractive
+# RUN apt-get install -y --no-install-recommends apt-utils
+
+RUN apt-get update \
+    && apt-get -y install \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        software-properties-common
+RUN mkdir /var/log/jenkins
+ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
+RUN apt-get install wget -y && apt-get install gnupg2 -y && apt-get install git -y
+RUN wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.176.2_all.deb
+COPY jdk-8u211-linux-x64.tar.gz /opt
+
+#RUN cp /tmp/jdk-8u211-linux-x64.tar.gz /opt
+RUN tar -xvzf /opt/jdk-8u211-linux-x64.tar.gz -C /opt
+
+
+#******
+
+RUN export JAVA_HOME=/opt/jdk1.8.0_211
+RUN export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+RUN export PATH=$PATH:$JAVA_HOME/bin
+
+#*******
+
+ENV JAVA_HOME="/opt/jdk1.8.0_211"
+
+#************
+
+RUN update-alternatives --install /usr/bin/java java /opt/jdk1.8.0_211/bin/java 0
+RUN update-alternatives --install "/usr/bin/javac" "javac" "/opt/jdk1.8.0_211/bin/javac" 0
+RUN update-alternatives --set java /opt/jdk1.8.0_211/bin/java
+RUN update-alternatives --set javac /opt/jdk1.8.0_211/bin/javac
+RUN update-alternatives --list java
+RUN update-alternatives --list javac
+RUN java -version
+
+RUN wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
+RUN sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+ARG http_port=8080
+RUN apt-get update
+RUN apt-get install jenkins -y
+
+ARG JENKINS_HOME=/var/lib/jenkins
+ENV JENKINS_HOME $JENKINS_HOME
+VOLUME $JENKINS_HOME
+WORKDIR /var/lib/jenkins
+
+
+COPY apache-maven-3.6.1-bin.tar.gz /opt
+RUN tar -xvzf /opt/apache-maven-3.6.1-bin.tar.gz -C /opt
+
+RUN apt-get install vim -y && apt-get update
+
+COPY apache-tomcat-8.5.43.tar.gz /opt
+RUN tar -xvzf /opt/apache-tomcat-8.5.43.tar.gz -C /opt
+RUN ln -s /opt/apache-tomcat-8.5.43/bin/startup.sh /usr/local/bin/up && ln -s /opt/apache-tomcat-8.5.43/bin/shutdown.sh /usr/local/bin/down
+RUN mv /opt/apache-tomcat-8.5.43/conf/tomcat-users.xml /opt/apache-tomcat-8.5.43/conf/tomcatold-user.xml
+COPY tomcat-users.xml /opt/apache-tomcat-8.5.43/conf
+RUN ln -s /opt/apache-tomcat-8.5.43 tomcat
+
+RUN mv /etc/default/jenkins /etc/default/jenkins-old
+COPY jenkins /etc/default
+RUN mv /opt/apache-tomcat-8.5.43/webapps/manager/META-INF/context.xml /opt/apache-tomcat-8.5.43/webapps/manager/META-INF/context.old
+COPY  context.xml /opt/apache-tomcat-8.5.43/webapps/manager/META-INF
+
+COPY mavenenv.sh /etc/profile.d
+RUN chmod +x /etc/profile.d/mavenenv.sh
+
+RUN . /etc/profile.d/mavenenv.sh
+
+
+RUN export PATH=${M2_HOME}/bin:${PATH}
+ENV M2_HOME /opt/apache-maven-3.6.1
+
+#RUN /bin/bash -c "source  /etc/profile.d/mavenenv.sh"
+
+SHELL ["mvn -v"]
+#RUN alias startj="service jenkins start"
+#RUN alias stopj="service jenkins stop"
+#RUN startj
+
+#RUN mvn -v
+#ENTRYPOINT [ "bash", "mavenenv.sh" ]
+#RUN service jenkins status
+#RUN service jenkins stop
+#RUN service jenkins start
+EXPOSE  ${http_port}
+EXPOSE  8081 80 443 22 9090 8181
