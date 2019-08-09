@@ -5,7 +5,6 @@ docker build -t ujjg .
 docker commit jenkinscontainer
 
 
-
 FROM rajarani/ubuntu:latest
 MAINTAINER rajarani <rajarani@admin.com>
 USER root
@@ -79,11 +78,15 @@ RUN mv /etc/default/jenkins /etc/default/jenkins-old
 COPY jenkins /etc/default
 RUN mv /opt/apache-tomcat-8.5.43/webapps/host-manager/META-INF/context.xml /opt/apache-tomcat-8.5.43/webapps/host-manager/META-INF/context.old
 COPY  context.xml /opt/apache-tomcat-8.5.43/webapps/host-manager/META-INF
-RUN apt-get install maven -y
+
+COPY mavenenv.sh /etc/profile.d
+RUN chmod +x /etc/profile.d/mavenenv.sh
+RUN /bin/bash -c "source  /etc/profile.d/mavenenv.sh"
+CMD ["mvn -v"]
 
 
 #RUN service jenkins status
 #RUN service jenkins stop
 #RUN service jenkins start
 EXPOSE  ${http_port}
-EXPOSE 8080 8081 80 443 22 9090 8181
+EXPOSE  8081 80 443 22 9090 8181
