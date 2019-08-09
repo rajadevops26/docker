@@ -82,7 +82,7 @@ COPY  context.xml /opt/apache-tomcat-8.5.43/webapps/host-manager/META-INF
 COPY mavenenv.sh /etc/profile.d
 RUN chmod +x /etc/profile.d/mavenenv.sh
 RUN /bin/bash -c "source  /etc/profile.d/mavenenv.sh"
-CMD ["mvn -v"]
+# CMD ["mvn -v"]
 
 
 #RUN service jenkins status
